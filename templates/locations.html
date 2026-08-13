@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+Locations | Sports League
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading locations-heading">
+
+    <div class="heading-content">
+        <p class="page-eyebrow">Courts and Facilities</p>
+
+        <h1>Playing Locations</h1>
+
+        <p>
+            Discover the courts, gyms and facilities used for
+            School Sports League games and training sessions.
+        </p>
+    </div>
+
+    <div class="page-stat">
+        <span>{{ locations|length }}</span>
+        <p>Playing Locations</p>
+    </div>
+
+</section>
+
+<section class="locations-section">
+
+    {% if locations %}
+
+    <div class="locations-grid">
+
+        {% for location in locations %}
+
+        <article class="location-card">
+
+            <div class="location-card-top">
+
+                <div class="location-icon">
+                    {% if "gym" in location["location_name"]|lower %}
+                        🏟️
+                    {% elif "court" in location["location_name"]|lower %}
+                        🏀
+                    {% else %}
+                        📍
+                    {% endif %}
+                </div>
+
+                <span class="location-id">
+                    {{ location["location_id"] }}
+                </span>
+
+            </div>
+
+            <div class="location-card-content">
+                <p class="location-label">
+                    School Sports Facility
+                </p>
+
+                <h2>{{ location["location_name"] }}</h2>
+
+                <div class="location-status">
+                    <span class="status-dot"></span>
+                    Available for league activities
+                </div>
+            </div>
+
+            <div class="location-card-footer">
+                <span>Game and training venue</span>
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="no-results">
+        <h2>No locations found</h2>
+        <p>No playing-location records are currently available.</p>
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

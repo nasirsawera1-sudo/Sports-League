@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home | School Sports League
+{% endblock %}
+
+{% block content %}
+
+<!-- 
+     HERO BANNER
+      -->
+<section class="wireframe-hero">
+
+    <img
+        class="hero-background-image"
+        src="{{ url_for('static', filename='images/sports-banner.jpg') }}"
+        alt="Students playing basketball during a school game"
+    >
+
+    <div class="hero-image-overlay"></div>
+
+    <div class="hero-content">
+
+        <p class="small-heading">
+            School Sports Management System
+        </p>
+
+        <h1>
+            Play Together.<br>
+            Grow Together.
+        </h1>
+
+        <p class="hero-description">
+            Explore our school basketball and netball teams,
+            students, fixtures, results and playing locations
+            in one organised system.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a class="button primary-hero-button"
+               href="{{ url_for('games') }}">
+                View Latest Games
+            </a>
+
+            <a class="button secondary-hero-button"
+               href="{{ url_for('teams') }}">
+                Explore Teams
+            </a>
+
+        </div>
+
+        <div class="hero-statistics">
+
+            <div class="hero-stat">
+                <strong>{{ totals.students }}</strong>
+                <span>Students</span>
+            </div>
+
+            <div class="hero-stat">
+                <strong>{{ totals.teams }}</strong>
+                <span>Teams</span>
+            </div>
+
+            <div class="hero-stat">
+                <strong>{{ totals.games }}</strong>
+                <span>Games</span>
+            </div>
+
+            <div class="hero-stat">
+                <strong>{{ totals.sports }}</strong>
+                <span>Sports</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- 
+     WELCOME INTRODUCTION
+      -->
+<section class="homepage-introduction">
+
+    <div class="introduction-text">
+
+        <p class="section-eyebrow">
+            Welcome to the league
+        </p>
+
+        <h2>
+            Everything about our school sports in one place
+        </h2>
+
+        <p>
+            The School Sports League system makes it easier to
+            explore participating students, organised teams,
+            scheduled games, final results and available sports
+            locations.
+        </p>
+
+    </div>
+
+    <div class="introduction-badges">
+
+        <div class="sport-badge">
+            <span class="sport-badge-icon">🏀</span>
+
+            <div>
+                <strong>Basketball</strong>
+                <span>Teams, players and results</span>
+            </div>
+        </div>
+
+        <div class="sport-badge">
+            <span class="sport-badge-icon">🏐</span>
+
+            <div>
+                <strong>Netball</strong>
+                <span>Fixtures, courts and teams</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- 
+     QUICK ACCESS
+     -->
+<section class="quick-access-section">
+
+    <div class="section-title">
+        <span></span>
+        <div>
+            <p>Explore the system</p>
+            <h2>Quick Access</h2>
+        </div>
+        <span></span>
+    </div>
+
+    <div class="quick-access-grid">
+
+        <a class="quick-access-card"
+           href="{{ url_for('students') }}">
+
+            <div class="quick-icon">🎓</div>
+
+            <div class="quick-card-text">
+                <h3>Students</h3>
+                <p>View registered players</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.students }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+
+        <a class="quick-access-card"
+           href="{{ url_for('teams') }}">
+
+            <div class="quick-icon">👥</div>
+
+            <div class="quick-card-text">
+                <h3>Teams</h3>
+                <p>Explore league teams</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.teams }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+
+        <a class="quick-access-card"
+           href="{{ url_for('team_members') }}">
+
+            <div class="quick-icon">🏅</div>
+
+            <div class="quick-card-text">
+                <h3>Team Members</h3>
+                <p>View players and roles</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.members }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+
+        <a class="quick-access-card"
+           href="{{ url_for('games') }}">
+
+            <div class="quick-icon">🏆</div>
+
+            <div class="quick-card-text">
+                <h3>Games</h3>
+                <p>Fixtures and final results</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.games }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+
+        <a class="quick-access-card"
+           href="{{ url_for('locations') }}">
+
+            <div class="quick-icon">📍</div>
+
+            <div class="quick-card-text">
+                <h3>Locations</h3>
+                <p>Find courts and gyms</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.locations }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+
+        <a class="quick-access-card"
+           href="{{ url_for('sports') }}">
+
+            <div class="quick-icon">🏀</div>
+
+            <div class="quick-card-text">
+                <h3>Sports</h3>
+                <p>View available sports</p>
+            </div>
+
+            <div class="record-number">
+                {{ totals.sports }}
+            </div>
+
+            <span class="card-arrow">→</span>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- 
+     LEAGUE FEATURES
+      -->
+<section class="league-features">
+
+    <div class="section-title">
+        <span></span>
+        <div>
+            <p>Manage and explore</p>
+            <h2>League Highlights</h2>
+        </div>
+        <span></span>
+    </div>
+
+    <div class="league-feature-grid">
+
+        <article class="league-information-card">
+            <div class="information-icon">📅</div>
+            <h3>Game Schedules</h3>
+            <p>
+                Check game dates, starting times and playing
+                locations for participating teams.
+            </p>
+            <a href="{{ url_for('games') }}">
+                View schedules →
+            </a>
+        </article>
+
+        <article class="league-information-card">
+            <div class="information-icon">🏆</div>
+            <h3>Match Results</h3>
+            <p>
+                View team scores, opponent scores and final
+                results from completed league games.
+            </p>
+            <a href="{{ url_for('games') }}">
+                View results →
+            </a>
+        </article>
+
+        <article class="league-information-card">
+            <div class="information-icon">📍</div>
+            <h3>Playing Locations</h3>
+            <p>
+                Find the school gyms and netball courts used
+                for training sessions and scheduled games.
+            </p>
+            <a href="{{ url_for('locations') }}">
+                Find locations →
+            </a>
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- 
+     FEATURED PICTURE CARDS
+      -->
+<section class="featured-pages">
+
+    <article class="feature-card">
+
+        <div class="feature-card-heading">
+            <span>01</span>
+            <h2>League Teams</h2>
+        </div>
+
+        <div class="feature-card-body teams-feature">
+
+            <img
+                class="feature-card-image"
+                src="{{ url_for('static', filename='images/basketball-players.jpg') }}"
+                alt="School basketball players during a match"
+            >
+
+            <div class="feature-card-overlay"></div>
+
+            <div class="feature-card-content">
+                <p class="feature-label">Teams</p>
+
+                <h3>Meet our participating teams</h3>
+
+                <p>
+                    Explore the basketball and netball teams
+                    competing throughout the school season.
+                </p>
+
+                <a href="{{ url_for('teams') }}">
+                    View Teams
+                </a>
+            </div>
+
+        </div>
+    </article>
+
+
+    <article class="feature-card">
+
+        <div class="feature-card-heading">
+            <span>02</span>
+            <h2>Games and Results</h2>
+        </div>
+
+        <div class="feature-card-body games-feature">
+
+            <img
+                class="feature-card-image"
+                src="{{ url_for('static', filename='images/basketball-game.jpg') }}"
+                alt="Students competing in a school basketball game"
+            >
+
+            <div class="feature-card-overlay"></div>
+
+            <div class="feature-card-content">
+                <p class="feature-label">Fixtures</p>
+
+                <h3>Follow every league game</h3>
+
+                <p>
+                    View game dates, starting times, scores,
+                    playing locations and final results.
+                </p>
+
+                <a href="{{ url_for('games') }}">
+                    View Games
+                </a>
+            </div>
+
+        </div>
+    </article>
+
+
+    <article class="feature-card">
+
+        <div class="feature-card-heading">
+            <span>03</span>
+            <h2>Sports Locations</h2>
+        </div>
+
+        <div class="feature-card-body locations-feature">
+
+            <img
+                class="feature-card-image"
+                src="{{ url_for('static', filename='images/basketball-hoop.jpg') }}"
+                alt="Basketball hoop at a school sports court"
+            >
+
+            <div class="feature-card-overlay"></div>
+
+            <div class="feature-card-content">
+                <p class="feature-label">Venues</p>
+
+                <h3>Find courts and school gyms</h3>
+
+                <p>
+                    Discover where league matches and training
+                    sessions take place.
+                </p>
+
+                <a href="{{ url_for('locations') }}">
+                    View Locations
+                </a>
+            </div>
+
+        </div>
+    </article>
+
+</section>
+
+
+<!-- 
+     FINAL CALL TO ACTION
+      -->
+<section class="homepage-call-to-action">
+
+    <div>
+        <p class="section-eyebrow">
+            Join the school sports community
+        </p>
+
+        <h2>Ready to explore the league?</h2>
+
+        <p>
+            Search for students, teams, games, sports and locations,
+            or log in to access the complete sports system.
+        </p>
+    </div>
+
+    <div class="call-to-action-buttons">
+
+        <a class="button"
+           href="{{ url_for('teams') }}">
+            Explore Teams
+        </a>
+
+        {% if not session.get("logged_in") %}
+            <a class="outline-button"
+               href="{{ url_for('login') }}">
+                Login
+            </a>
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}
+Team Members | Sports League
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading members-heading">
+
+    <div class="heading-content">
+        <p class="page-eyebrow">Players and Roles</p>
+
+        <h1>Team Members</h1>
+
+        <p>
+            View students assigned to each team and the role they
+            perform. This information combines the Team Member,
+            Teams and Student database tables.
+        </p>
+    </div>
+
+    <div class="page-stat">
+        <span>{{ members|length }}</span>
+        <p>Team Members</p>
+    </div>
+
+</section>
+
+<form class="page-search" method="GET" action="">
+    <input
+        type="search"
+        name="q"
+        value="{{ search_query|default('') }}"
+        placeholder="Search by member name, team or role"
+        aria-label="Search team members"
+    >
+
+    <button type="submit">Search</button>
+
+    {% if search_query %}
+        <a href="{{ request.path }}" class="clear-search">
+            Clear
+        </a>
+    {% endif %}
+</form>
+
+<section class="members-section">
+
+    {% if members %}
+
+    <div class="table-container members-table-container">
+
+        <table class="members-table">
+
+            <thead>
+                <tr>
+                    <th>Member ID</th>
+                    <th>Student</th>
+                    <th>Team</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for member in members %}
+
+                <tr>
+                    <td>
+                        <span class="member-id">
+                            {{ member["team_member_id"] }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="student-profile">
+
+                            <div class="student-avatar">
+                                {{ member["first_name"][0] }}
+                                {{ member["last_name"][0] }}
+                            </div>
+
+                            <div>
+                                <strong>
+                                    {{ member["first_name"] }}
+                                    {{ member["last_name"] }}
+                                </strong>
+
+                                <small>Registered student</small>
+                            </div>
+
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="team-name">
+                            {{ member["team_name"] }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {% if "captain" in member["role"]|lower %}
+
+                            <span class="role-badge captain-role">
+                                ★ {{ member["role"] }}
+                            </span>
+
+                        {% elif "reserve" in member["role"]|lower %}
+
+                            <span class="role-badge reserve-role">
+                                {{ member["role"] }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="role-badge player-role">
+                                {{ member["role"] }}
+                            </span>
+
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+     {% endif %}
+<div class="no-results">
+    <h2>No team members found</h2>
+
+    {% if search_query %}
+        <p>
+            No team members matched “{{ search_query }}”.
+        </p>
+    {% else %}
+        <p>No team member records are currently available.</p>
+    {% endif %}
+</div>
+
+</section>
+
+{% endblock %}

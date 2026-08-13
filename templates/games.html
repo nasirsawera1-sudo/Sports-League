@@ -1,0 +1,478 @@
+{% extends "base.html" %}
+
+{% block title %}
+Games and Results | School Sports League
+{% endblock %}
+
+{% block content %}
+
+{% set game_stats = namespace(
+    wins=0,
+    losses=0,
+    draws=0
+) %}
+
+{% for game in games %}
+
+    {% if game["final_result"]|lower == "win" %}
+        {% set game_stats.wins = game_stats.wins + 1 %}
+
+    {% elif game["final_result"]|lower == "loss" %}
+        {% set game_stats.losses = game_stats.losses + 1 %}
+
+    {% else %}
+        {% set game_stats.draws = game_stats.draws + 1 %}
+    {% endif %}
+
+{% endfor %}
+
+<!-- GAMES PAGE BANNER -->
+<section class="games-page-hero">
+
+    <div class="games-hero-content">
+
+        <p class="page-eyebrow">
+            School Sports League
+        </p>
+
+        <h1>Games and Results</h1>
+
+        <p>
+            Explore scheduled basketball and netball games,
+            locations, scores and final match results.
+        </p>
+
+        <div class="page-breadcrumb">
+            <a href="{{ url_for('home') }}">Home</a>
+            <span>→</span>
+            <strong>Games</strong>
+        </div>
+
+    </div>
+
+    <div class="games-hero-icon" aria-hidden="true">
+        🏆
+    </div>
+
+</section>
+
+
+<!-- GAME STATISTICS -->
+<section class="game-summary-grid">
+
+    <article class="game-summary-card total-games-card">
+
+        <div class="summary-icon">📅</div>
+
+        <div>
+            <span>Total Games</span>
+            <strong>{{ games|length }}</strong>
+        </div>
+
+    </article>
+
+
+    <article class="game-summary-card wins-card">
+
+        <div class="summary-icon">🏆</div>
+
+        <div>
+            <span>Wins</span>
+            <strong>{{ game_stats.wins }}</strong>
+        </div>
+
+    </article>
+
+
+    <article class="game-summary-card draws-card">
+
+        <div class="summary-icon">🤝</div>
+
+        <div>
+            <span>Draws</span>
+            <strong>{{ game_stats.draws }}</strong>
+        </div>
+
+    </article>
+
+
+    <article class="game-summary-card losses-card">
+
+        <div class="summary-icon">📉</div>
+
+        <div>
+            <span>Losses</span>
+            <strong>{{ game_stats.losses }}</strong>
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- GAMES TOOLBAR -->
+<section class="games-content-section">
+
+    <div class="games-toolbar">
+
+        <div class="games-toolbar-heading">
+            <p class="section-eyebrow">League records</p>
+            <h2>Game Schedule</h2>
+        </div>
+
+        <div class="game-search-box">
+
+            <span aria-hidden="true">⌕</span>
+
+            <input
+                id="gameSearch"
+                type="search"
+                placeholder="Search team, location, date or result..."
+                aria-label="Search game records"
+            >
+
+            <button
+                id="clearGameSearch"
+                type="button"
+                aria-label="Clear game search"
+                title="Clear search"
+            >
+                × 
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Search result message -->
+    <div
+        id="gameSearchMessage"
+        class="game-search-message"
+        aria-live="polite"
+    ></div>
+
+
+    <!--  GAMES TABLE -->
+    <div class="games-table-container">
+
+        {% if games %}
+
+        <table class="games-table" id="gamesTable">
+
+            <thead>
+                <tr>
+                    <th>Game</th>
+                    <th>Team</th>
+                    <th>Location</th>
+                    <th>Date and Time</th>
+                    <th>Score</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for game in games %}
+
+                <tr class="game-table-row">
+
+                    <!-- Game ID -->
+                    <td data-label="Game">
+                        <span class="game-id">
+                            {{ game["game_id"] }}
+                        </span>
+                    </td>
+
+
+                    <!-- Team -->
+                    <td data-label="Team">
+
+                        <div class="game-team-cell">
+                            <span class="team-avatar">
+                                {{ game["team_name"][0]|upper }}
+                            </span>
+
+                            <div>
+                                <strong>
+                                    {{ game["team_name"] }}
+                                </strong>
+
+                                <span>School team</span>
+                            </div>
+                        </div>
+
+                    </td>
+
+
+                    <!-- Location -->
+                    <td data-label="Location">
+
+                        <div class="game-location-cell">
+                            <span aria-hidden="true">📍</span>
+
+                            <span>
+                                {{ game["location_name"] }}
+                            </span>
+                        </div>
+
+                    </td>
+
+
+                    <!-- Date and time -->
+                    <td data-label="Date and Time">
+
+                        <div class="game-date-cell">
+
+                            <strong>
+                                {{ game["date"] }}
+                            </strong>
+
+                            <span>
+                                {{ game["time"] }}
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- Score -->
+                    <td data-label="Score">
+
+                        {% if game["team_score"] is not none
+                              and game["opponent_score"] is not none %}
+
+                            <div class="score-display">
+
+                                <span>
+                                    {{ game["team_score"] }}
+                                </span>
+
+                                <small>–</small>
+
+                                <span>
+                                    {{ game["opponent_score"] }}
+                                </span>
+
+                            </div>
+
+                        {% else %}
+
+                            <span class="score-pending">
+                                Not played
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Result -->
+                    <td data-label="Result">
+
+                        {% if game["final_result"]|lower == "win" %}
+
+                            <span class="result result-win">
+                                <span></span>
+                                Win
+                            </span>
+
+                        {% elif game["final_result"]|lower == "loss" %}
+
+                            <span class="result result-loss">
+                                <span></span>
+                                Loss
+                            </span>
+
+                        {% elif game["final_result"]|lower == "draw" %}
+
+                            <span class="result result-draw">
+                                <span></span>
+                                Draw
+                            </span>
+
+                        {% else %}
+
+                            <span class="result result-pending">
+                                <span></span>
+
+                                {{ game["final_result"]
+                                   or "Scheduled" }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <div
+            id="filteredGamesEmpty"
+            class="filtered-games-empty"
+            hidden
+        >
+            <div class="empty-state-icon">🔍</div>
+
+            <h3>No matching games found</h3>
+
+            <p>
+                Try searching with another team, location,
+                date or result.
+            </p>
+
+            <button id="resetGameSearch" type="button">
+                Show All Games
+            </button>
+        </div>
+
+
+        {% else %}
+
+        <div class="games-empty-state">
+
+            <div class="empty-state-icon">🏀</div>
+
+            <h2>No games available</h2>
+
+            <p>
+                No scheduled game records were found in the
+                sports league database.
+            </p>
+
+            <a class="button" href="{{ url_for('home') }}">
+                Return to Home
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- BOTTOM NAVIGATION -->
+<section class="games-bottom-navigation">
+
+    <div>
+        <p class="section-eyebrow">
+            Continue exploring
+        </p>
+
+        <h2>Discover more about the league</h2>
+    </div>
+
+    <div class="games-bottom-links">
+
+        <a href="{{ url_for('teams') }}">
+            <span>👥</span>
+            View Teams
+        </a>
+
+        <a href="{{ url_for('locations') }}">
+            <span>📍</span>
+            View Locations
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- CLIENT-SIDE GAME SEARCH -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput =
+        document.getElementById("gameSearch");
+
+    const clearButton =
+        document.getElementById("clearGameSearch");
+
+    const resetButton =
+        document.getElementById("resetGameSearch");
+
+    const message =
+        document.getElementById("gameSearchMessage");
+
+    const emptyState =
+        document.getElementById("filteredGamesEmpty");
+
+    const table =
+        document.getElementById("gamesTable");
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+    const rows = Array.from(
+        table.querySelectorAll(".game-table-row")
+    );
+
+    function filterGames() {
+        const searchTerm =
+            searchInput.value.trim().toLowerCase();
+
+        let visibleGames = 0;
+
+        rows.forEach(function (row) {
+            const rowText =
+                row.textContent.toLowerCase();
+
+            const matches =
+                rowText.includes(searchTerm);
+
+            row.hidden = !matches;
+
+            if (matches) {
+                visibleGames += 1;
+            }
+        });
+
+        if (searchTerm) {
+            message.textContent =
+                visibleGames + " matching game(s) found";
+        } else {
+            message.textContent = "";
+        }
+
+        const hasNoMatches =
+            visibleGames === 0 && searchTerm !== "";
+
+        emptyState.hidden = !hasNoMatches;
+        table.hidden = hasNoMatches;
+    }
+
+    function clearSearch() {
+        searchInput.value = "";
+        searchInput.focus();
+        filterGames();
+    }
+
+    searchInput.addEventListener(
+        "input",
+        filterGames
+    );
+
+    clearButton.addEventListener(
+        "click",
+        clearSearch
+    );
+
+    if (resetButton) {
+        resetButton.addEventListener(
+            "click",
+            clearSearch
+        );
+    }
+});
+</script>
+
+{% endblock %}

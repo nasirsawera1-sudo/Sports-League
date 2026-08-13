@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+Students | Sports League
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading students-heading">
+    <h1>Students</h1>
+
+    <p>
+        This page displays all students registered in the
+        School Sports League database.
+    </p>
+</section>
+
+<form class="page-search" method="GET" action="">
+    <input
+        type="search"
+        name="q"
+        value="{{ search_query|default('') }}"
+        placeholder="Search by student ID, name or class"
+        aria-label="Search students"
+    >
+
+    <button type="submit">Search</button>
+
+    {% if search_query %}
+        <a href="{{ url_for('students') }}" class="clear-search">
+            Clear
+        </a>
+    {% endif %}
+</form>
+
+<div class="table-container students-table-container">
+
+    {% if students %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Class</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student["student_id"] }}</td>
+                <td>{{ student["first_name"] }}</td>
+                <td>{{ student["last_name"] }}</td>
+                <td>{{ student["class"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <div class="no-results">
+        <h2>No students found</h2>
+
+        {% if search_query %}
+            <p>
+                No students matched “{{ search_query }}”.
+            </p>
+        {% else %}
+            <p>No student records are currently available.</p>
+        {% endif %}
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+

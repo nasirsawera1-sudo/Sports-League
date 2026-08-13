@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+Teams | Sports League
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading teams-heading">
+
+    <div class="heading-content">
+        <p class="page-eyebrow">
+            Basketball and Netball
+        </p>
+
+        <h1>Our Teams</h1>
+
+        <p>
+            Explore all school teams participating in the Sports
+            League and discover which sport each team plays.
+        </p>
+    </div>
+
+    <div class="page-stat">
+        <span>{{ teams|length }}</span>
+        <p>Registered Teams</p>
+    </div>
+
+</section>
+
+
+<section class="teams-section">
+
+    {% if teams %}
+
+    <div class="teams-grid">
+
+        {% for team in teams %}
+
+        <article class="team-card">
+
+            <div class="team-card-icon">
+                {% if "netball" in team["sport_name"]|lower %}
+                    🏐
+                {% else %}
+                    🏀
+                {% endif %}
+            </div>
+
+            <div class="team-card-content">
+
+                <span class="team-id">
+                    {{ team["team_id"] }}
+                </span>
+
+                <h2>{{ team["team_name"] }}</h2>
+
+                {% if "netball" in team["sport_name"]|lower %}
+
+                    <span class="sport-badge netball-badge">
+                        Netball
+                    </span>
+
+                {% else %}
+
+                    <span class="sport-badge basketball-badge">
+                        Basketball
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="no-results">
+        <h2>No teams found</h2>
+        <p>No team records are currently available.</p>
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

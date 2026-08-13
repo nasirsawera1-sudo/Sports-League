@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}School Sports League{% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-container">
+
+        <a class="logo" href="{{ url_for('home') }}">
+            <span class="logo-icon">🏆</span>
+
+            <span class="logo-text">
+                School Sports League
+            </span>
+        </a>
+
+        <div class="header-actions">
+
+            <a href="{{ url_for('home') }}"
+               class="home-link">
+                Home
+            </a>
+
+            <form class="navigation-search"
+                  action="{{ url_for('search') }}"
+                  method="GET">
+
+                <input
+                    type="search"
+                    name="search"
+                    aria-label="Search the Sports League"
+                    placeholder="Search..."
+                    required
+                >
+
+                <button type="submit"
+                        aria-label="Submit search">
+                    🔍
+                </button>
+
+            </form>
+
+            {% if session.get("logged_in") %}
+
+                <a href="{{ url_for('logout') }}"
+                   class="login-navigation-button">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('login') }}"
+                   class="login-navigation-button">
+                    Login
+                </a>
+
+            {% endif %}
+
+            <button
+                type="button"
+                class="menu-button"
+                id="menu-button"
+                aria-controls="mega-menu"
+                aria-expanded="false"
+            >
+                <span id="menu-symbol">☰</span>
+                <span id="menu-text">Menu</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Full-width menu -->
+    <nav
+        class="mega-menu"
+        id="mega-menu"
+        aria-label="Website pages"
+    >
+
+        <div class="mega-menu-container">
+
+            <div class="menu-column">
+
+                <p class="menu-column-title">
+                    League
+                </p>
+
+                <a href="{{ url_for('students') }}">
+                    Students
+                </a>
+
+                <a href="{{ url_for('teams') }}">
+                    Teams
+                </a>
+
+                <a href="{{ url_for('team_members') }}">
+                    Team Members
+                </a>
+
+            </div>
+            
+            <div class="menu-column">
+
+                <p class="menu-column-title">
+                    Explore
+                </p>
+
+                <a href="{{ url_for('games') }}">
+                    Games and Results
+                </a>
+
+                <a href="{{ url_for('locations') }}">
+                    Playing Locations
+                </a>
+
+                <a href="{{ url_for('sports') }}">
+                    Sports
+                </a>
+
+            </div>
+
+
+            <div class="menu-feature-card">
+
+                <span class="menu-card-icon">🏆</span>
+
+                <h2>
+                    Play together.<br>
+                    Grow together.
+                </h2>
+
+                <p>
+                    Explore students, teams, games, results and
+                    playing locations in one organised system.
+                </p>
+
+                <a href="{{ url_for('games') }}"
+                   class="menu-card-link">
+                    View latest games →
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<main class="page-container">
+    {% block content %}
+    {% endblock %}
+</main>
+
+
+<footer>
+    <p>
+        &copy; 2026 School Sports League |
+        Created by Sawera Nasir |
+        All Rights Reserved
+    </p>
+</footer>
+
+
+<script>
+    const menuButton =
+        document.getElementById("menu-button");
+
+    const megaMenu =
+        document.getElementById("mega-menu");
+
+    const menuSymbol =
+        document.getElementById("menu-symbol");
+
+    const menuText =
+        document.getElementById("menu-text");
+
+
+    function closeMenu() {
+        megaMenu.classList.remove("mega-menu-open");
+
+        menuButton.classList.remove("menu-button-open");
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        menuSymbol.textContent = "☰";
+        menuText.textContent = "Menu";
+    }
+
+
+    menuButton.addEventListener("click", function () {
+        const menuIsOpen =
+            megaMenu.classList.toggle("mega-menu-open");
+
+        menuButton.classList.toggle(
+            "menu-button-open",
+            menuIsOpen
+        );
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            String(menuIsOpen)
+        );
+
+        if (menuIsOpen) {
+            menuSymbol.textContent = "×";
+            menuText.textContent = "Close";
+        } else {
+            menuSymbol.textContent = "☰";
+            menuText.textContent = "Menu";
+        }
+    });
+
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeMenu();
+            menuButton.focus();
+        }
+    });
+
+
+    megaMenu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeMenu);
+    });
+</script>
+
+</body>
+</html>

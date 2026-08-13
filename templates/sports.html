@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sports | Sports League
+{% endblock %}
+
+{% block content %}
+
+<section class="page-heading sports-heading">
+
+    <div class="heading-content">
+        <p class="page-eyebrow">Our Main Sports</p>
+
+        <h1>Basketball and Netball</h1>
+
+        <p>
+            Explore the sports offered by the School Sports League
+            and the teams participating in each competition.
+        </p>
+    </div>
+
+    <div class="page-stat">
+        <span>{{ sports|length }}</span>
+        <p>Sports</p>
+    </div>
+
+</section>
+
+
+{% if sports %}
+
+<section class="sports-grid">
+
+    {% for sport in sports %}
+
+    {% set sport_name = sport["sport_name"]|lower %}
+
+    <article class="sport-card
+        {% if 'basketball' in sport_name %}
+            basketball-card
+        {% elif 'netball' in sport_name %}
+            netball-card
+        {% endif %}
+    ">
+
+        <div class="sport-card-image">
+
+            {% if 'basketball' in sport_name %}
+
+            <img
+                src="{{ url_for('static', filename='images/basketball-game.jpg') }}"
+                alt="Students playing basketball"
+            >
+
+            {% elif 'netball' in sport_name %}
+
+            <img
+                src="{{ url_for('static', filename='images/basketball-players.jpg') }}"
+                alt="Students playing netball"
+            >
+
+            {% else %}
+
+            <img
+                src="{{ url_for('static', filename='images/sports-banner.jpg') }}"
+                alt="School sports game"
+            >
+
+            {% endif %}
+
+            <div class="sport-image-overlay"></div>
+
+            <span class="sport-icon">
+                {% if 'basketball' in sport_name %}
+                    🏀
+                {% elif 'netball' in sport_name %}
+                    🏐
+                {% else %}
+                    🏆
+                {% endif %}
+            </span>
+
+        </div>
+
+        <div class="sport-card-content">
+
+            <span class="sport-id">
+                {{ sport["sport_id"] }}
+            </span>
+
+            <p class="sport-label">
+                School League Sport
+            </p>
+
+            <h2>{{ sport["sport_name"] }}</h2>
+
+            <p>
+                View the teams, players and scheduled games
+                connected to this sport.
+            </p>
+
+            <a class="sport-card-button"
+               href="{{ url_for('teams') }}">
+                Explore Teams
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </div>
+
+    </article>
+
+    {% endfor %}
+
+</section>
+
+{% else %}
+
+<div class="sports-empty-state">
+    <span>🏆</span>
+    <h2>No sports found</h2>
+    <p>No sport records are currently available.</p>
+</div>
+
+{% endif %}
+
+{% endblock %}
+
