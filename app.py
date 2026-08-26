@@ -38,6 +38,7 @@ def get_total(table_name):
 
 @app.route("/")
 def home():
+    return "Hello from Flask on Vercel!"
     totals = {
         "students": get_total("STUDENT"),
         "teams": get_total("TEAMS"),
