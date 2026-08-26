@@ -1,10 +1,9 @@
 from pathlib import Path
 import sqlite3
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for 
 
 app = Flask(__name__)
-app.secret_key = "school-sports-league-secret-key"
 
 BASE_DIR = Path(__file__).resolve().parent
 DATABASE = BASE_DIR / "database" / "sports.db"
@@ -199,7 +198,7 @@ def search():
     search_term = request.args.get("search", "").strip()
 
     # If the user searches for a page/category,
-    # send them directly to that page.
+    # It will send them directly to that page.
     category = search_term.lower()
 
     category_pages = {
@@ -338,32 +337,6 @@ def search():
         total_results=total_results
     )
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if session.get("logged_in"):
-        return redirect(url_for("home"))
-
-    error = None
-
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
-
-        if username == "admin" and password == "sports123":
-            session["logged_in"] = True
-            session["username"] = username
-
-            return redirect(url_for("home"))
-
-        error = "Incorrect username or password. Please try again."
-
-    return render_template("login.html", error=error)
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("home"))
 
 
 @app.errorhandler(404)

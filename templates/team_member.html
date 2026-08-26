@@ -5,7 +5,7 @@ Team Members | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the top part of my team members page -->
 <section class="page-heading members-heading">
 
     <div class="heading-content">
@@ -19,14 +19,14 @@ Team Members | Sports League
             Teams and Student database tables.
         </p>
     </div>
-
+<!-- This shows how many team members there are -->
     <div class="page-stat">
         <span>{{ members|length }}</span>
         <p>Team Members</p>
     </div>
 
 </section>
-
+<!-- I added this search so user can find team members easily -->
 <form class="page-search" method="GET" action="">
     <input
         type="search"
@@ -37,20 +37,20 @@ Team Members | Sports League
     >
 
     <button type="submit">Search</button>
-
+<!-- This shows clear button after user search something -->
     {% if search_query %}
         <a href="{{ request.path }}" class="clear-search">
             Clear
         </a>
     {% endif %}
 </form>
-
+<!-- This part shows all the team members -->
 <section class="members-section">
-
+<!-- This checks if there are team members to show -->
     {% if members %}
 
     <div class="table-container members-table-container">
-
+<!-- This table shows the team member information -->
         <table class="members-table">
 
             <thead>
@@ -63,19 +63,21 @@ Team Members | Sports League
             </thead>
 
             <tbody>
-
+<!-- This goes through each team member from the database -->
                 {% for member in members %}
 
                 <tr>
                     <td>
+<!-- This shows the member ID -->
                         <span class="member-id">
                             {{ member["team_member_id"] }}
                         </span>
                     </td>
 
                     <td>
+<!-- This shows the student name and profile -->
                         <div class="student-profile">
-
+<!-- This shows the first letter of students first and last name -->
                             <div class="student-avatar">
                                 {{ member["first_name"][0] }}
                                 {{ member["last_name"][0] }}
@@ -94,24 +96,26 @@ Team Members | Sports League
                     </td>
 
                     <td>
+<!-- This shows which team the student is in -->
                         <span class="team-name">
                             {{ member["team_name"] }}
                         </span>
                     </td>
 
                     <td>
+<!-- This checks the role of each team member -->
                         {% if "captain" in member["role"]|lower %}
-
+<!-- This shows the captain role -->
                             <span class="role-badge captain-role">
                                 ★ {{ member["role"] }}
                             </span>
-
+<!-- This shows the reserve role -->
                         {% elif "reserve" in member["role"]|lower %}
 
                             <span class="role-badge reserve-role">
                                 {{ member["role"] }}
                             </span>
-
+<!-- This shows the player role-->
                         {% else %}
 
                             <span class="role-badge player-role">
@@ -130,9 +134,10 @@ Team Members | Sports League
 
     </div>
      {% endif %}
+ <!-- This shows if no team members were found -->
 <div class="no-results">
     <h2>No team members found</h2>
-
+<!-- This shows if the search did not match any team member -->
     {% if search_query %}
         <p>
             No team members matched “{{ search_query }}”.

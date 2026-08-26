@@ -5,7 +5,7 @@ Games and Results | School Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This counts how many wins losses and draws there are -->
 {% set game_stats = namespace(
     wins=0,
     losses=0,
@@ -26,7 +26,7 @@ Games and Results | School Sports League
 
 {% endfor %}
 
-<!-- GAMES PAGE BANNER -->
+<!-- This is the top part of my games page -->
 <section class="games-page-hero">
 
     <div class="games-hero-content">
@@ -57,7 +57,7 @@ Games and Results | School Sports League
 </section>
 
 
-<!-- GAME STATISTICS -->
+<!-- This shows the total wins losses and draws -->
 <section class="game-summary-grid">
 
     <article class="game-summary-card total-games-card">
@@ -110,7 +110,7 @@ Games and Results | School Sports League
 </section>
 
 
-<!-- GAMES TOOLBAR -->
+<!-- This part shows all the game records -->
 <section class="games-content-section">
 
     <div class="games-toolbar">
@@ -119,7 +119,7 @@ Games and Results | School Sports League
             <p class="section-eyebrow">League records</p>
             <h2>Game Schedule</h2>
         </div>
-
+<!-- I added this search bar so users can find games easily -->
         <div class="game-search-box">
 
             <span aria-hidden="true">⌕</span>
@@ -145,15 +145,15 @@ Games and Results | School Sports League
     </div>
 
 
-    <!-- Search result message -->
+    <!-- This shows how many games match the search -->
     <div
         id="gameSearchMessage"
         class="game-search-message"
         aria-live="polite"
     ></div>
 
-
-    <!--  GAMES TABLE -->
+    
+    <!--  This table shows all the games information -->
     <div class="games-table-container">
 
         {% if games %}
@@ -177,7 +177,7 @@ Games and Results | School Sports League
 
                 <tr class="game-table-row">
 
-                    <!-- Game ID -->
+                    <!-- This shows the game id -->
                     <td data-label="Game">
                         <span class="game-id">
                             {{ game["game_id"] }}
@@ -185,7 +185,7 @@ Games and Results | School Sports League
                     </td>
 
 
-                    <!-- Team -->
+                    <!-- This shows the team -->
                     <td data-label="Team">
 
                         <div class="game-team-cell">
@@ -205,7 +205,7 @@ Games and Results | School Sports League
                     </td>
 
 
-                    <!-- Location -->
+                    <!-- This shows the location -->
                     <td data-label="Location">
 
                         <div class="game-location-cell">
@@ -219,7 +219,7 @@ Games and Results | School Sports League
                     </td>
 
 
-                    <!-- Date and time -->
+                    <!-- This shows the date and time -->
                     <td data-label="Date and Time">
 
                         <div class="game-date-cell">
@@ -237,7 +237,7 @@ Games and Results | School Sports League
                     </td>
 
 
-                    <!-- Score -->
+                    <!-- This shows the score  -->
                     <td data-label="Score">
 
                         {% if game["team_score"] is not none
@@ -268,7 +268,7 @@ Games and Results | School Sports League
                     </td>
 
 
-                    <!-- Result -->
+                    <!-- This shows the result -->
                     <td data-label="Result">
 
                         {% if game["final_result"]|lower == "win" %}
@@ -312,7 +312,7 @@ Games and Results | School Sports League
             </tbody>
 
         </table>
-
+<!-- This shows when no game match the search -->
         <div
             id="filteredGamesEmpty"
             class="filtered-games-empty"
@@ -334,7 +334,7 @@ Games and Results | School Sports League
 
 
         {% else %}
-
+<!-- This shows if there are no games in the database -->
         <div class="games-empty-state">
 
             <div class="empty-state-icon">🏀</div>
@@ -345,7 +345,7 @@ Games and Results | School Sports League
                 No scheduled game records were found in the
                 sports league database.
             </p>
-
+<!-- These links help user go to other pages -->
             <a class="button" href="{{ url_for('home') }}">
                 Return to Home
             </a>
@@ -359,7 +359,7 @@ Games and Results | School Sports League
 </section>
 
 
-<!-- BOTTOM NAVIGATION -->
+<!-- This is the bottom-navigation -->
 <section class="games-bottom-navigation">
 
     <div>
@@ -387,9 +387,10 @@ Games and Results | School Sports League
 </section>
 
 
-<!-- CLIENT-SIDE GAME SEARCH -->
+<!-- This javascript makes the game search work -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    // Getting the search parts from the page
     const searchInput =
         document.getElementById("gameSearch");
 
@@ -401,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const message =
         document.getElementById("gameSearchMessage");
-
+// This check which games match what user search
     const emptyState =
         document.getElementById("filteredGamesEmpty");
 
@@ -415,13 +416,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const rows = Array.from(
         table.querySelectorAll(".game-table-row")
     );
-
+// This check which games match what user search
     function filterGames() {
         const searchTerm =
             searchInput.value.trim().toLowerCase();
 
         let visibleGames = 0;
-
+// this goes through each game in the table
         rows.forEach(function (row) {
             const rowText =
                 row.textContent.toLowerCase();
@@ -435,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 visibleGames += 1;
             }
         });
-
+// This shows how many matching games were found
         if (searchTerm) {
             message.textContent =
                 visibleGames + " matching game(s) found";
@@ -449,7 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
         emptyState.hidden = !hasNoMatches;
         table.hidden = hasNoMatches;
     }
-
+// This clears the search
     function clearSearch() {
         searchInput.value = "";
         searchInput.focus();
@@ -460,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "input",
         filterGames
     );
-
+// This makes the search work when user type
     clearButton.addEventListener(
         "click",
         clearSearch

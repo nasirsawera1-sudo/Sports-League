@@ -10,32 +10,32 @@
     <title>
         {% block title %}School Sports League{% endblock %}
     </title>
-
+<!-- This connect my css with all pages -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-
+<!-- This is the top part of my website-->
 <header class="site-header">
 
     <div class="header-container">
 
         <a class="logo" href="{{ url_for('home') }}">
             <span class="logo-icon">🏆</span>
-
+<!-- This is my website logo and it also takes user back to the home page -->
             <span class="logo-text">
                 School Sports League
             </span>
         </a>
 
         <div class="header-actions">
-
+<!-- This takes the user back to the home page -->
             <a href="{{ url_for('home') }}"
                class="home-link">
                 Home
             </a>
-
+<!-- I added this search bar so the user can search things easily -->
             <form class="navigation-search"
                   action="{{ url_for('search') }}"
                   method="GET">
@@ -55,22 +55,7 @@
 
             </form>
 
-            {% if session.get("logged_in") %}
-
-                <a href="{{ url_for('logout') }}"
-                   class="login-navigation-button">
-                    Logout
-                </a>
-
-            {% else %}
-
-                <a href="{{ url_for('login') }}"
-                   class="login-navigation-button">
-                    Login
-                </a>
-
-            {% endif %}
-
+<!-- This button open and close the menu --> 
             <button
                 type="button"
                 class="menu-button"
@@ -87,7 +72,7 @@
     </div>
 
 
-    <!-- Full-width menu -->
+<!-- This is the menu where user can go to different pages -->
     <nav
         class="mega-menu"
         id="mega-menu"
@@ -95,7 +80,7 @@
     >
 
         <div class="mega-menu-container">
-
+<!-- These are the links for students and teams -->    
             <div class="menu-column">
 
                 <p class="menu-column-title">
@@ -115,7 +100,7 @@
                 </a>
 
             </div>
-            
+<!-- These links are for games locations and sports -->
             <div class="menu-column">
 
                 <p class="menu-column-title">
@@ -150,7 +135,7 @@
                     Explore students, teams, games, results and
                     playing locations in one organised system.
                 </p>
-
+<!-- I added this part so user can quickly go to the games page -->
                 <a href="{{ url_for('games') }}"
                    class="menu-card-link">
                     View latest games →
@@ -170,7 +155,7 @@
     {% endblock %}
 </main>
 
-
+<!-- This is the footer of my website -->
 <footer>
     <p>
         &copy; 2026 School Sports League |
@@ -193,7 +178,7 @@
     const menuText =
         document.getElementById("menu-text");
 
-
+// This function close the menu
     function closeMenu() {
         megaMenu.classList.remove("mega-menu-open");
 
@@ -208,7 +193,7 @@
         menuText.textContent = "Menu";
     }
 
-
+// This open and close the menu when user click the button
     menuButton.addEventListener("click", function () {
         const menuIsOpen =
             megaMenu.classList.toggle("mega-menu-open");
@@ -232,7 +217,7 @@
         }
     });
 
-
+// This close the menu when escape key is pressed 
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") {
             closeMenu();
@@ -240,7 +225,7 @@
         }
     });
 
-
+// This close the menu when user click on any page
     megaMenu.querySelectorAll("a").forEach(function (link) {
         link.addEventListener("click", closeMenu);
     });

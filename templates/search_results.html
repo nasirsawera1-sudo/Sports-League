@@ -5,255 +5,261 @@ Search Results | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the main part of my search page -->
 <div class="page-container">
+<!-- This shows the search result and how many results were found -->
+ <section class="page-heading">
+ <h1>Search Results</h1>
+<!-- This checks if user searched something -->
+ {% if search_term %}
+<p>
+Found {{ total_results }} result(s) for
+ <strong>{{ search_term }}</strong>
+ </p>
+ {% else %}
+ <p>Enter a word to search the Sports League.</p>
+ {% endif %}
+ </section>
+<!-- I added this search bar so user can search again -->
+ <form class="results-search"
+  action="{{ url_for('search') }}"
+  method="GET">
 
-    <section class="page-heading">
-        <h1>Search Results</h1>
+ <input
+ type="search"
+ name="search"
+ value="{{ search_term }}"
+ placeholder="Search the Sports League"
+ required
+ >
 
-        {% if search_term %}
-            <p>
-                Found {{ total_results }} result(s) for
-                <strong>{{ search_term }}</strong>
-            </p>
-        {% else %}
-            <p>Enter a word to search the Sports League.</p>
-        {% endif %}
-    </section>
+<button type="submit">Search</button>
 
-    <form class="results-search"
-          action="{{ url_for('search') }}"
-          method="GET">
+ </form>
 
-        <input
-            type="search"
-            name="search"
-            value="{{ search_term }}"
-            placeholder="Search the Sports League"
-            required
-        >
+<!-- This shows if there are no matching results -->
+ {% if total_results == 0 and search_term %}
 
-        <button type="submit">Search</button>
+ <div class="no-search-results">
+<h2>No results found</h2>
 
-    </form>
+ <p>
+  Try another student name, team, sport,
+ game result, date or location.
+ </p>
+ </div>
 
+{% endif %}
 
-    {% if total_results == 0 and search_term %}
+<!-- This shows the student results -->
+ {% if results.students %}
 
-        <div class="no-search-results">
-            <h2>No results found</h2>
+<section class="result-section">
+<h2>Students ({{ results.students|length }})</h2>
 
-            <p>
-                Try another student name, team, sport,
-                game result, date or location.
-            </p>
-        </div>
+ <div class="table-container">
+ <table>
+<thead>
+ <tr>
+ <th>Student ID</th>
+<th>First Name</th>
+<th>Last Name</th>
+ <th>Class</th>
+ </tr>
+ </thead>
 
-    {% endif %}
+<tbody>
+    <!-- This goes through each student result -->
+ {% for student in results.students %}
+ <tr>
+      <td>{{ student["student_id"] }}</td>
+     <td>{{ student["first_name"] }}</td>
+     <td>{{ student["last_name"] }}</td>
+     <td>{{ student["class"] }}</td>
+</tr>
+ {% endfor %}
+</tbody>
+ </table>
+ </div>
+</section>
 
+{% endif %}
 
-    {% if results.students %}
+<!-- This shows the team results -->
+ {% if results.teams %}
 
-    <section class="result-section">
-        <h2>Students ({{ results.students|length }})</h2>
+<section class="result-section">
+ <h2>Teams ({{ results.teams|length }})</h2>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Class</th>
-                    </tr>
-                </thead>
+ <div class="table-container">
+ <table>
+ <thead>
+ <tr>
+   <th>Team ID</th>
+    <th>Team Name</th>
+   <th>Sport</th>
+</tr>
+ </thead>
 
-                <tbody>
-                    {% for student in results.students %}
-                    <tr>
-                        <td>{{ student["student_id"] }}</td>
-                        <td>{{ student["first_name"] }}</td>
-                        <td>{{ student["last_name"] }}</td>
-                        <td>{{ student["class"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+<tbody>
+<!-- This goes through each team result -->
+ {% for team in results.teams %}
+ <tr>
+ <td>{{ team["team_id"] }}</td>
+ <td>{{ team["team_name"] }}</td>
+  <td>{{ team["sport_name"] }}</td>
+ </tr>
+ {% endfor %}
+ </tbody>
+</table>
+ </div>
+</section>
 
-    {% endif %}
+{% endif %}
 
+<!-- This shows the team member results -->
+ {% if results.members %}
 
-    {% if results.teams %}
+ <section class="result-section">
+ <h2>Team Members ({{ results.members|length }})</h2>
 
-    <section class="result-section">
-        <h2>Teams ({{ results.teams|length }})</h2>
+ <div class="table-container">
+ <table>
+<thead>
+ <tr>
+  <th>Member ID</th>
+ <th>Student</th>
+ <th>Team</th>
+ <th>Role</th>
+ </tr>
+</thead>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Team ID</th>
-                        <th>Team Name</th>
-                        <th>Sport</th>
-                    </tr>
-                </thead>
+ <tbody>
+<!-- This goes through each team member result -->
+ {% for member in results.members %}
+ <tr>
+     <td>{{ member["team_member_id"] }}</td>
 
-                <tbody>
-                    {% for team in results.teams %}
-                    <tr>
-                        <td>{{ team["team_id"] }}</td>
-                        <td>{{ team["team_name"] }}</td>
-                        <td>{{ team["sport_name"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+<td>
+{{ member["first_name"] }}
+ {{ member["last_name"] }}
+</td>
 
-    {% endif %}
+<td>{{ member["team_name"] }}</td>
+ <td>{{ member["role"] }}</td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ </div>
+</section>
 
+ {% endif %}
 
-    {% if results.members %}
+<!-- This shows the game results -->
+{% if results.games %}
 
-    <section class="result-section">
-        <h2>Team Members ({{ results.members|length }})</h2>
+ <section class="result-section">
+ <h2>Games ({{ results.games|length }})</h2>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Member ID</th>
-                        <th>Student</th>
-                        <th>Team</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
+<div class="table-container">
+ <table>
+  <thead>
+ <tr>
+ <th>Game ID</th>
+ <th>Team</th>
+ <th>Location</th>
+ <th>Date</th>
+ <th>Time</th>
+ <th>Score</th>
+ <th>Result</th>
+ </tr>
+  </thead>
 
-                <tbody>
-                    {% for member in results.members %}
-                    <tr>
-                        <td>{{ member["team_member_id"] }}</td>
+ <tbody>
+<!-- This goes through each game result -->
+ {% for game in results.games %}
+ <tr>
+ <td>{{ game["game_id"] }}</td>
+ <td>{{ game["team_name"] }}</td>
+<td>{{ game["location_name"] }}</td>
+ <td>{{ game["date"] }}</td>
+ <td>{{ game["time"] }}</td>
 
-                        <td>
-                            {{ member["first_name"] }}
-                            {{ member["last_name"] }}
-                        </td>
+ <td>
+     {{ game["team_score"] }} -
+     {{ game["opponent_score"] }}
+</td>
 
-                        <td>{{ member["team_name"] }}</td>
-                        <td>{{ member["role"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+ <td>{{ game["final_result"] }}</td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ </div>
+</section>
 
-    {% endif %}
+{% endif %}
 
+<!-- This shows the location results -->
+ {% if results.locations %}
 
-    {% if results.games %}
+ <section class="result-section">
+ <h2>Locations ({{ results.locations|length }})</h2>
 
-    <section class="result-section">
-        <h2>Games ({{ results.games|length }})</h2>
+<div class="table-container">
+ <table>
+ <thead>
+ <tr>
+<th>Location ID</th>
+  <th>Location Name</th>
+ </tr>
+</thead>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Game ID</th>
-                        <th>Team</th>
-                        <th>Location</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Score</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
+<tbody>
+    <!-- This goes through each location result -->
+ {% for location in results.locations %}
+ <tr>
+ <td>{{ location["location_id"] }}</td>
+ <td>{{ location["location_name"] }}</td>
+ </tr>
+ {% endfor %}
+</tbody>
+ </table>
+</div>
+ </section>
 
-                <tbody>
-                    {% for game in results.games %}
-                    <tr>
-                        <td>{{ game["game_id"] }}</td>
-                        <td>{{ game["team_name"] }}</td>
-                        <td>{{ game["location_name"] }}</td>
-                        <td>{{ game["date"] }}</td>
-                        <td>{{ game["time"] }}</td>
+{% endif %}
 
-                        <td>
-                            {{ game["team_score"] }} -
-                            {{ game["opponent_score"] }}
-                        </td>
+<!-- This shows the sports result -->
+{% if results.sports %}
 
-                        <td>{{ game["final_result"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+<section class="result-section">
+ <h2>Sports ({{ results.sports|length }})</h2>
 
-    {% endif %}
+ <div class="table-container">
+ <table>
+ <thead>
+ <tr>
+<th>Sport ID</th>
+<th>Sport Name</th>
+ </tr>
+</thead>
 
+ <tbody>
+<!-- This goes through each sports result -->
+ {% for sport in results.sports %}
+<tr>
+ <td>{{ sport["sport_id"] }}</td>
+ <td>{{ sport["sport_name"] }}</td>
+</tr>
+ {% endfor %}
+</tbody>
+</table>
+</div>
+</section>
 
-    {% if results.locations %}
-
-    <section class="result-section">
-        <h2>Locations ({{ results.locations|length }})</h2>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Location ID</th>
-                        <th>Location Name</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for location in results.locations %}
-                    <tr>
-                        <td>{{ location["location_id"] }}</td>
-                        <td>{{ location["location_name"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    {% endif %}
-
-
-    {% if results.sports %}
-
-    <section class="result-section">
-        <h2>Sports ({{ results.sports|length }})</h2>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sport ID</th>
-                        <th>Sport Name</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for sport in results.sports %}
-                    <tr>
-                        <td>{{ sport["sport_id"] }}</td>
-                        <td>{{ sport["sport_name"] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    {% endif %}
+{% endif %}
 
 </div>
 

@@ -5,16 +5,25 @@ Students | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the top part of my student page -->
 <section class="page-heading students-heading">
-    <h1>Students</h1>
 
-    <p>
-        This page displays all students registered in the
-        School Sports League database.
-    </p>
+    <div class="students-heading-content">
+        <h1>Students</h1>
+
+        <p>
+            This page displays all students registered in the
+            School Sports League database.
+        </p>
+    </div>
+<!-- This shows how many students there are -->
+    <div class="student-count-card">
+        <span class="student-count-number">93</span>
+        <span class="student-count-label">Students</span>
+    </div>
+
 </section>
-
+<!-- I added this search so user can find students easily -->
 <form class="page-search" method="GET" action="">
     <input
         type="search"
@@ -25,18 +34,18 @@ Students | Sports League
     >
 
     <button type="submit">Search</button>
-
+<!-- This shows the clear button after the user search something -->
     {% if search_query %}
         <a href="{{ url_for('students') }}" class="clear-search">
             Clear
         </a>
     {% endif %}
 </form>
-
+<!-- This part shows all the student records -->
 <div class="table-container students-table-container">
-
+<!-- This checks if there are students to show -->
     {% if students %}
-
+<!-- This table shows the students information -->
     <table>
         <thead>
             <tr>
@@ -48,7 +57,9 @@ Students | Sports League
         </thead>
 
         <tbody>
+<!-- This goes through each student from the database -->
             {% for student in students %}
+<!-- This shows the each students ID name and class -->
             <tr>
                 <td>{{ student["student_id"] }}</td>
                 <td>{{ student["first_name"] }}</td>
@@ -60,15 +71,16 @@ Students | Sports League
     </table>
 
     {% else %}
-
+<!-- This shows if there are no students were found -->
     <div class="no-results">
         <h2>No students found</h2>
-
+<!-- This shows if the search did not match any student -->
         {% if search_query %}
             <p>
                 No students matched “{{ search_query }}”.
             </p>
         {% else %}
+<!-- This shows if there are no student records -->
             <p>No student records are currently available.</p>
         {% endif %}
     </div>
@@ -77,6 +89,6 @@ Students | Sports League
 
 </div>
 
-{% endblock %}
-
+{% endblock%}
+ 
 

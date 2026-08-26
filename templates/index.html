@@ -6,9 +6,7 @@ Home | School Sports League
 
 {% block content %}
 
-<!-- 
-     HERO BANNER
-      -->
+<!-- This is the main banner of my webpage -->
 <section class="wireframe-hero">
 
     <img
@@ -49,7 +47,7 @@ Home | School Sports League
             </a>
 
         </div>
-
+<!-- This shows how many students, teams, games, and sports are in the system -->   
         <div class="hero-statistics">
 
             <div class="hero-stat">
@@ -79,9 +77,7 @@ Home | School Sports League
 </section>
 
 
-<!-- 
-     WELCOME INTRODUCTION
-      -->
+<!-- This part explain what my website is about -->
 <section class="homepage-introduction">
 
     <div class="introduction-text">
@@ -128,9 +124,7 @@ Home | School Sports League
 </section>
 
 
-<!-- 
-     QUICK ACCESS
-     -->
+<!-- These cards help users go to different pages easily-->
 <section class="quick-access-section">
 
     <div class="section-title">
@@ -143,7 +137,7 @@ Home | School Sports League
     </div>
 
     <div class="quick-access-grid">
-
+<!-- It goes to the students page  -->
         <a class="quick-access-card"
            href="{{ url_for('students') }}">
 
@@ -161,7 +155,7 @@ Home | School Sports League
             <span class="card-arrow">→</span>
         </a>
 
-
+<!-- It goes to the teams page -->
         <a class="quick-access-card"
            href="{{ url_for('teams') }}">
 
@@ -179,7 +173,7 @@ Home | School Sports League
             <span class="card-arrow">→</span>
         </a>
 
-
+<!-- It goes to the team members page -->
         <a class="quick-access-card"
            href="{{ url_for('team_members') }}">
 
@@ -197,7 +191,7 @@ Home | School Sports League
             <span class="card-arrow">→</span>
         </a>
 
-
+<!-- It goes to the games page -->
         <a class="quick-access-card"
            href="{{ url_for('games') }}">
 
@@ -215,7 +209,7 @@ Home | School Sports League
             <span class="card-arrow">→</span>
         </a>
 
-
+<!-- It goes to the locations page -->
         <a class="quick-access-card"
            href="{{ url_for('locations') }}">
 
@@ -233,7 +227,7 @@ Home | School Sports League
             <span class="card-arrow">→</span>
         </a>
 
-
+<!-- It goes to the sports page -->
         <a class="quick-access-card"
            href="{{ url_for('sports') }}">
 
@@ -256,9 +250,7 @@ Home | School Sports League
 </section>
 
 
-<!-- 
-     LEAGUE FEATURES
-      -->
+<!-- This part shows the useful information about games and locations --> 
 <section class="league-features">
 
     <div class="section-title">
@@ -313,9 +305,7 @@ Home | School Sports League
 </section>
 
 
-<!-- 
-     FEATURED PICTURE CARDS
-      -->
+<!-- This part shows more about the teams, games and locations --> 
 <section class="featured-pages">
 
     <article class="feature-card">
@@ -428,9 +418,7 @@ Home | School Sports League
 </section>
 
 
-<!-- 
-     FINAL CALL TO ACTION
-      -->
+<!-- This the last section of the homepage --> 
 <section class="homepage-call-to-action">
 
     <div>
@@ -442,7 +430,7 @@ Home | School Sports League
 
         <p>
             Search for students, teams, games, sports and locations,
-            or log in to access the complete sports system.
+            around the school sports system.
         </p>
     </div>
 
@@ -452,14 +440,6 @@ Home | School Sports League
            href="{{ url_for('teams') }}">
             Explore Teams
         </a>
-
-        {% if not session.get("logged_in") %}
-            <a class="outline-button"
-               href="{{ url_for('login') }}">
-                Login
-            </a>
-        {% endif %}
-
     </div>
 
 </section>

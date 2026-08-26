@@ -5,7 +5,7 @@ Sports | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the top part of my sports page -->
 <section class="page-heading sports-heading">
 
     <div class="heading-content">
@@ -18,7 +18,7 @@ Sports | Sports League
             and the teams participating in each competition.
         </p>
     </div>
-
+<!-- This shows how many sports there are -->
     <div class="page-stat">
         <span>{{ sports|length }}</span>
         <p>Sports</p>
@@ -26,15 +26,15 @@ Sports | Sports League
 
 </section>
 
-
+<!-- This checks if there are sports in the database -->
 {% if sports %}
-
+<!-- This part shows all the sports -->
 <section class="sports-grid">
-
+<!-- This goes through each sport -->
     {% for sport in sports %}
-
+<!-- This gets the sport name -->
     {% set sport_name = sport["sport_name"]|lower %}
-
+<!-- This card shows one sport -->
     <article class="sport-card
         {% if 'basketball' in sport_name %}
             basketball-card
@@ -42,23 +42,23 @@ Sports | Sports League
             netball-card
         {% endif %}
     ">
-
+<!-- This shows the image for each sport -->
         <div class="sport-card-image">
-
+<!-- This shows the basketball image if the sport is basketball -->
             {% if 'basketball' in sport_name %}
 
             <img
                 src="{{ url_for('static', filename='images/basketball-game.jpg') }}"
                 alt="Students playing basketball"
             >
-
+<!-- this shows the netball image if the sport is netball -->
             {% elif 'netball' in sport_name %}
 
             <img
                 src="{{ url_for('static', filename='images/basketball-players.jpg') }}"
                 alt="Students playing netball"
             >
-
+<!-- This shows a normal sports image if it is another sport -->
             {% else %}
 
             <img
@@ -69,7 +69,7 @@ Sports | Sports League
             {% endif %}
 
             <div class="sport-image-overlay"></div>
-
+<!-- This shows a different icon for each sport -->
             <span class="sport-icon">
                 {% if 'basketball' in sport_name %}
                     🏀
@@ -81,9 +81,9 @@ Sports | Sports League
             </span>
 
         </div>
-
+<!-- This shows the sport information -->
         <div class="sport-card-content">
-
+<!-- This shows the sport ID -->
             <span class="sport-id">
                 {{ sport["sport_id"] }}
             </span>
@@ -98,7 +98,7 @@ Sports | Sports League
                 View the teams, players and scheduled games
                 connected to this sport.
             </p>
-
+<!-- This button takes the user to the teams page -->
             <a class="sport-card-button"
                href="{{ url_for('teams') }}">
                 Explore Teams
@@ -112,7 +112,7 @@ Sports | Sports League
     {% endfor %}
 
 </section>
-
+<!-- This shows if there are no sports -->
 {% else %}
 
 <div class="sports-empty-state">

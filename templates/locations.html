@@ -5,7 +5,7 @@ Locations | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the top part of my locations page -->
 <section class="page-heading locations-heading">
 
     <div class="heading-content">
@@ -18,20 +18,20 @@ Locations | Sports League
             School Sports League games and training sessions.
         </p>
     </div>
-
+<!-- This shows how many playing locations there are -->
     <div class="page-stat">
         <span>{{ locations|length }}</span>
         <p>Playing Locations</p>
     </div>
 
 </section>
-
+<!-- This part shows all the locations -->
 <section class="locations-section">
 
     {% if locations %}
-
+<!-- This shows the locations in cards -->
     <div class="locations-grid">
-
+<!-- This goes through each location -->
         {% for location in locations %}
 
         <article class="location-card">
@@ -47,7 +47,7 @@ Locations | Sports League
                         📍
                     {% endif %}
                 </div>
-
+<!-- This shows the location ID -->
                 <span class="location-id">
                     {{ location["location_id"] }}
                 </span>
@@ -58,9 +58,9 @@ Locations | Sports League
                 <p class="location-label">
                     School Sports Facility
                 </p>
-
+<!-- This shows the location name -->
                 <h2>{{ location["location_name"] }}</h2>
-
+<!-- This shows if the location can be used for games -->
                 <div class="location-status">
                     <span class="status-dot"></span>
                     Available for league activities

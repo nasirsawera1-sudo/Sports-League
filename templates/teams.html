@@ -5,7 +5,7 @@ Teams | Sports League
 {% endblock %}
 
 {% block content %}
-
+<!-- This is the top part of my teams page -->
 <section class="page-heading teams-heading">
 
     <div class="heading-content">
@@ -20,7 +20,7 @@ Teams | Sports League
             League and discover which sport each team plays.
         </p>
     </div>
-
+<!-- This shows how many teams there are -->
     <div class="page-stat">
         <span>{{ teams|length }}</span>
         <p>Registered Teams</p>
@@ -28,17 +28,17 @@ Teams | Sports League
 
 </section>
 
-
+<!-- This part shows all the teams -->
 <section class="teams-section">
-
+<!-- This checks if there are teams in the database -->
     {% if teams %}
-
+<!-- This shows all teams in cards -->
     <div class="teams-grid">
-
+<!-- This goes through each team from the database -->
         {% for team in teams %}
-
+<!-- This card shows one team -->
         <article class="team-card">
-
+<!-- This shows netball or basketball icon -->
             <div class="team-card-icon">
                 {% if "netball" in team["sport_name"]|lower %}
                     🏐
@@ -48,19 +48,19 @@ Teams | Sports League
             </div>
 
             <div class="team-card-content">
-
+<!-- This shows the team ID -->
                 <span class="team-id">
                     {{ team["team_id"] }}
                 </span>
-
+<!-- Shows the team name -->
                 <h2>{{ team["team_name"] }}</h2>
-
+<!-- This checks which sport the team plays -->
                 {% if "netball" in team["sport_name"]|lower %}
 
                     <span class="sport-badge netball-badge">
                         Netball
                     </span>
-
+<!-- This shows basketball if the team is not netball -->
                 {% else %}
 
                     <span class="sport-badge basketball-badge">
@@ -76,7 +76,7 @@ Teams | Sports League
         {% endfor %}
 
     </div>
-
+<!-- This shows if there are no teams -->
     {% else %}
 
     <div class="no-results">
